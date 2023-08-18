@@ -52,6 +52,23 @@
                     </div>
                 </div>
             </div>
+            <p id="firefox-note">
+                This website was built for
+                <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a
+                >, a fast and free browser that respects your privacy.
+            </p>
         </div>
+        <script>
+            const ua = window.navigator.userAgent;
+            if (
+                ua.indexOf("Chrome") > -1 &&
+                ua.indexOf("Focus") == -1 &&
+                ua.indexOf("Klar") == -1
+            ) {
+                document
+                    .getElementById("firefox-note")
+                    .style.setProperty("--display", "static");
+            }
+        </script>
     </body>
 </html>

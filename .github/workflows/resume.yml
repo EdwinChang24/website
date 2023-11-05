@@ -1,0 +1,27 @@
+name: Copy resume from submodule
+
+on: [push, workflow_dispatch]
+permissions:
+  contents: write
+
+jobs:
+  copy-resume:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            resume:
+              - 'resume/**'
+      - if: steps.changes.filter.resume == 'true' || github.event_name == 'workflow_dispatch'
+        run: |
+          cp -r resume/pdf/* src
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src
+          git commit -m "update resume"
+          git push

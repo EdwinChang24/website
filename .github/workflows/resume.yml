@@ -11,13 +11,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: true
-      - uses: dorny/paths-filter@v2
+      - uses: dorny/paths-filter@v3
         id: filter
         with:
           filters: |
             resume:
               - 'resume/**'
-      - if: steps.changes.filter.resume == 'true' || github.event_name == 'workflow_dispatch'
+      - if: steps.filter.outputs.resume == 'true' || github.event_name == 'workflow_dispatch'
         run: |
           cp -r resume/pdf/* src
           git config --global user.name "GitHub Actions"
